@@ -1,17 +1,20 @@
 package com.wang.shiro;
 
 import com.alibaba.fastjson.JSON;
+import com.wang.common.RedisUtil;
 import com.wang.model.SysPermission;
 import com.wang.model.SysRole;
 import com.wang.model.UserInfo;
 import com.wang.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -22,6 +25,8 @@ import javax.annotation.Resource;
 public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private UserInfoService userInfoService;
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -56,6 +61,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         if(userInfo == null){
             return null;
         }
+
+        // 绑定用户信息
+        SecurityUtils.getSubject().getSession().setAttribute("LOGIN_USER", userInfo);
 
         return new SimpleAuthenticationInfo(
             //用户名

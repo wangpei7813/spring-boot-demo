@@ -37,7 +37,9 @@ public class MySessionManager extends DefaultWebSessionManager {
         } else {
             //否则按默认规则从cookie取sessionId
             Serializable sessionId = super.getSessionId(request, response);
-            log.info("获取 sessionId = {}", sessionId.toString());
+            if (sessionId != null) {
+                log.info("获取 sessionId = {}", sessionId.toString());
+            }
             return sessionId;
         }
 

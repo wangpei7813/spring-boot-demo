@@ -1,5 +1,6 @@
 package com.wang.shiro;
 
+import com.wang.common.RedisKey;
 import com.wang.common.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.Session;
@@ -18,10 +19,6 @@ import java.util.Collection;
 @Slf4j
 public class MySessionDao extends AbstractSessionDAO {
 
-    private static final long EXPIRE_TIME = 10 * 60;
-
-    private static String prefix = "shiro-session:";
-
     @Resource
     private RedisUtil redisUtil;
 
@@ -31,16 +28,16 @@ public class MySessionDao extends AbstractSessionDAO {
         // sid和session绑定
         super.assignSessionId(session, sid);
         log.info("创建sessionId = {}", sid.toString());
-        redisUtil.set(prefix + sid, session, EXPIRE_TIME);
+        redisUtil.set(RedisKey.SESSION_KEY + sid, session, RedisKey.SESSION_EXPIRE_TIME);
         return sid;
     }
 
     @Override
     protected Session doReadSession(Serializable sid) {
-        Session session = (Session) redisUtil.get(prefix + sid.toString());
+        Session session = (Session) redisUtil.get(RedisKey.SESSION_KEY + sid.toString());
         if (session != null) {
             // 更新过期时间
-            redisUtil.set(prefix + sid.toString(), session, EXPIRE_TIME);
+            redisUtil.set(RedisKey.SESSION_KEY + sid.toString(), session, RedisKey.SESSION_EXPIRE_TIME);
         }
         return session;
     }
@@ -48,13 +45,13 @@ public class MySessionDao extends AbstractSessionDAO {
     @Override
     public void update(Session session) throws UnknownSessionException {
         log.info("update session : {}", session.getId().toString());
-        redisUtil.set(prefix + session.getId().toString(), session, EXPIRE_TIME);
+        redisUtil.set(RedisKey.SESSION_KEY + session.getId().toString(), session, RedisKey.SESSION_EXPIRE_TIME);
     }
 
     @Override
     public void delete(Session session) {
         log.info("delete session : {}", session.getId().toString());
-        redisUtil.del(prefix + session.getId().toString());
+        redisUtil.del(RedisKey.SESSION_KEY + session.getId().toString());
     }
 
     @Override

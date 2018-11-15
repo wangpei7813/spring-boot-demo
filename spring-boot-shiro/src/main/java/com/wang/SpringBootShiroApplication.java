@@ -10,17 +10,6 @@ import org.springframework.context.annotation.Bean;
 @MapperScan(basePackages = {"com.wang.dao"})
 public class SpringBootShiroApplication {
 
-	/**
-	 * @Description: 方法执行时间拦截器
-	 * @auther: wp
-	 * @date: 2018/11/15 10:37
-	 */
-	@Bean
-	ExcuteTimeInterceptor excuteTimeInterceptor() {
-		return new ExcuteTimeInterceptor();
-	}
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootShiroApplication.class, args);
 	}

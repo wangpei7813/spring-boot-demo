@@ -48,8 +48,9 @@ public class HomeController {
                 msg = "登陆失败";
                 log.info("else -- >" + exception);
             }
+            map.put("msg", msg);
         }
-        map.put("msg", msg);
+
         // 此方法不处理登录成功,由shiro进行处理
         return "/login";
     }
