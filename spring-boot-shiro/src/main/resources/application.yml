@@ -1,0 +1,63 @@
+server:
+  port: 8888
+
+
+#数据源
+spring:
+  datasource:
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/master?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+#    type: com.zaxxer.hikari.HikariDataSource
+
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+
+  thymeleaf:
+     cache: false
+     mode: LEGACYHTML5
+
+  redis:
+    host: 127.0.0.1
+    database: 1
+    port: 6379
+    jedis:
+      pool:
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池中的最大空闲连接
+        max-idle: 20
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    timeout: 10000
+
+#  rabbitmq:
+#    host: 192.168.4.116
+#    port: 5672
+#    username: root
+#    password: root
+
+mybatis-plus:
+  mapper-locations: classpath*:com/wang/mapper/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+  global-config:
+    id-type: 1
+#    table-prefix: t_
+    refresh-mapper: true
+logging:
+  level:
+    com:
+      wang: debug
+    org:
+      springframework:
+        web: info
+  file: study.log
+  path: /opt/study
+
+#    db-column-underline: false
+
