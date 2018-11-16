@@ -17,7 +17,7 @@ public class HomeController {
 
     @RequestMapping({"/", "/index"})
     public String index() {
-        return "/index";
+        return "index";
     }
 
     @RequestMapping("/login")
@@ -52,7 +52,7 @@ public class HomeController {
         }
 
         // 此方法不处理登录成功,由shiro进行处理
-        return "/login";
+        return "login";
     }
 
     @RequestMapping("/403")
