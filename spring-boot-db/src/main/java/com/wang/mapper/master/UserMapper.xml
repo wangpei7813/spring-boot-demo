@@ -5,7 +5,7 @@
         INSERT INTO user(age, password, sex, username) VALUE (#{age},#{password},#{sex},#{username})
     </insert>
     <update id="update">
-        UPDATE user SET age = #{age}, password = #{password}, sex = #{sex}, username = #{username} where id = #{id}
+        UPDATE user SET age = #{age} where id = #{id}
     </update>
     <delete id="deleteById">
         DELETE FROM user WHERE id = #{0}

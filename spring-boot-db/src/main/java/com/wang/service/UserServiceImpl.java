@@ -24,11 +24,11 @@ public class UserServiceImpl {
     public void testDB() {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(2L);
-        userInfo.setAge(18);
+        userInfo.setAge(23);
         slave.update(userInfo);
         userInfo = new UserInfo();
-        userInfo.setId(2L);
-        userInfo.setAge(22);
+        userInfo.setId(1L);
+        userInfo.setAge(26);
         master.update(userInfo);
     }
 }
