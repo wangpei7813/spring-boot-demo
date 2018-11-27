@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wang.dao.UserInfoDao">
+
+    <insert id="batchInsert" useGeneratedKeys="true">
+        insert into user_info(uid,username,name,password,salt,state)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.uid},
+            #{item.username},
+            #{item.name},
+            #{item.password},
+            #{item.salt},
+            #{item.state})
+        </foreach>
+    </insert>
+
     <select id="findByUsername" resultType="com.wang.model.UserInfo">
         SELECT * FROM user_info WHERE username = #{0}
     </select>
