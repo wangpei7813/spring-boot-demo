@@ -22,12 +22,12 @@ public class HomeController {
 
     @RequestMapping("/login")
     public String login(HttpServletRequest request, Map<String, Object> map) throws Exception {
-        log.info("HomeController.login()");
         //如果用户未退出直接到登录页面 先退出一下
         //原因：isAccessAllowed实现是subject.isAuthenticated()---->即如果用户验证通过 就允许访问
         //这样会导致登录一直死循环
         Subject subject = SecurityUtils.getSubject();
-        if (subject != null && subject.isAuthenticated()) {
+        log.info("HomeController.login() ------ {}", subject.getSession().getId());
+        if (subject.isAuthenticated()) {
             subject.logout();
         }
         // 登录失败从request中获取shiro处理的异常信息。

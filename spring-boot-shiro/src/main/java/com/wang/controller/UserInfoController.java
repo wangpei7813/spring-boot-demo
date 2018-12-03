@@ -51,6 +51,7 @@ public class UserInfoController {
     @RequiresPermissions("userInfo:view")//权限管理;
     public String userInfo() {
         Subject subject = SecurityUtils.getSubject();
+        log.info("userList ------- sid = {}", subject.getSession().getId());
         UserInfo userInfo = (UserInfo) subject.getPrincipal();
         log.info(JSON.toJSONString(userInfo));
         return "user_info";

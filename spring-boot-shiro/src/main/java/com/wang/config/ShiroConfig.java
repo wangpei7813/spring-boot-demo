@@ -1,5 +1,6 @@
 package com.wang.config;
 
+import com.wang.interceptor.AuthFilter;
 import com.wang.shiro.DefaultHeaderSessionManager;
 import com.wang.shiro.MySessionDao;
 import com.wang.shiro.MySessionManager;
@@ -8,15 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -29,6 +29,12 @@ public class ShiroConfig {
 		log.info("ShiroConfiguration.shirFilter()");
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+		/*//自定义拦截器
+		Map<String, Filter> filtersMap = new LinkedHashMap<>();
+		filtersMap.put("authFilter", authFilter());
+		shiroFilterFactoryBean.setFilters(filtersMap);*/
+
 		//拦截器.
 		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
 		// 配置不会被拦截的链接 顺序判断
@@ -49,6 +55,12 @@ public class ShiroConfig {
 		return shiroFilterFactoryBean;
 	}
 
+
+	@Bean
+	public AuthFilter authFilter(){
+		return new AuthFilter();
+	}
+
 	/**
 	 * 凭证匹配器
 	 * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）
@@ -57,8 +69,10 @@ public class ShiroConfig {
 	@Bean
 	public HashedCredentialsMatcher hashedCredentialsMatcher(){
 		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-		hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-		hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
+		//散列算法:这里使用MD5算法;
+		hashedCredentialsMatcher.setHashAlgorithmName("md5");
+		//散列的次数，比如散列两次，相当于 md5(md5(""));
+		hashedCredentialsMatcher.setHashIterations(2);
 		return hashedCredentialsMatcher;
 	}
 
@@ -85,9 +99,9 @@ public class ShiroConfig {
 
 	@Bean
 	public SessionManager sessionManager() {
-		MySessionManager sessionManager = new MySessionManager();
+//		MySessionManager sessionManager = new MySessionManager();
 //		DefaultWebSessionManager  sessionManager = new DefaultWebSessionManager();
-//		DefaultHeaderSessionManager sessionManager = new DefaultHeaderSessionManager();
+		DefaultHeaderSessionManager sessionManager = new DefaultHeaderSessionManager();
 		sessionManager.setSessionDAO(mySessionDao());
 		return sessionManager;
 	}

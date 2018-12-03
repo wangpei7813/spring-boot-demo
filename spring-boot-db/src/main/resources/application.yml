@@ -64,7 +64,7 @@ logging:
     org:
       springframework:
         web: info
-  file: study.log
+  file: study_db.log
   path: /opt/study
 
 #    db-column-underline: false

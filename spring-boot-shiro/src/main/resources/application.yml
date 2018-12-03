@@ -22,7 +22,7 @@ spring:
        content-type: text/html
 
   redis:
-    host: 192.168.4.152
+    host: 127.0.0.1
     database: 1
     port: 6379
     jedis:
@@ -58,7 +58,7 @@ logging:
     org:
       springframework:
         web: info
-  file: study.log
+  file: study_shiro.log
   path: /opt/study
 
 #    db-column-underline: false
