@@ -1,6 +1,21 @@
 server:
   port: 8890
 
+# http://localhost:9001/monitor/configprops  查看配置文件中设置的属性内容，以及一些配置属性的默认值。
+# 项目健康信息监控
+management:
+  server:
+    port: 9001 #actuator端口
+  endpoints:
+    web:
+      base-path: /monitor #修改访问路径  2.0之前默认是/   2.0默认是 /actuator  可以通过这个属性值修改\
+      exposure:
+        include: '*'
+      #开放所有页面节点  默认只开启了health、info两个节点
+  endpoint:
+    health:
+      show-details: always #显示健康具体信息  默认不会显示详细信息
+
 
 #数据源
 spring:
@@ -60,6 +75,5 @@ logging:
         web: info
   file: study_shiro.log
   path: /opt/study
-
 #    db-column-underline: false
 
