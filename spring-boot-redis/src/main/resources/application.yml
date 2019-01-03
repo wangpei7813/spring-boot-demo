@@ -1,12 +1,8 @@
 server:
   port: 9001
-
 #\u6570\u636E\u6E90
 spring:
   redis:
-    host: 192.168.4.152
-    database: 1
-    port: 6379
     jedis:
       pool:
         # \u8FDE\u63A5\u6C60\u6700\u5927\u963B\u585E\u7B49\u5F85\u65F6\u95F4\uFF08\u4F7F\u7528\u8D1F\u503C\u8868\u793A\u6CA1\u6709\u9650\u5236\uFF09
@@ -18,6 +14,9 @@ spring:
         # \u8FDE\u63A5\u6C60\u4E2D\u7684\u6700\u5C0F\u7A7A\u95F2\u8FDE\u63A5
         min-idle: 0
     timeout: 10000
+    cluster:
+      nodes: 192.168.5.15:6381,192.168.5.15:6382,192.168.5.15:6383,192.168.5.15:6384,192.168.5.15:6385,192.168.5.15:6386
+      max-redirects: 1000
 
 logging:
   level:
