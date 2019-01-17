@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wang.dbdemo.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.wang.dbdemo.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+    <result column="platform_id" property="platformId" jdbcType="VARCHAR" />
+    <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR" />
+    <result column="poi_id" property="poiId" jdbcType="VARCHAR" />
+    <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
+    <result column="sender_phone" property="senderPhone" jdbcType="VARCHAR" />
+    <result column="sender_lng" property="senderLng" jdbcType="INTEGER" />
+    <result column="sender_lat" property="senderLat" jdbcType="INTEGER" />
+    <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_lng" property="receiverLng" jdbcType="INTEGER" />
+    <result column="receiver_lat" property="receiverLat" jdbcType="INTEGER" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="pkg_price" property="pkgPrice" jdbcType="DECIMAL" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, order_type, city_id, platform_id, platform_order_id, poi_id, sender_address, 
+    sender_phone, sender_lng, sender_lat, sender_name, receiver_address, receiver_phone, 
+    receiver_lng, receiver_lat, receiver_name, remark, pkg_price, create_by, create_time, 
+    update_by, update_time
+  </sql>
+  
+  <select id="shardSelectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${tableName}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="shardDeleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ${tableName}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="shardInsert" parameterType="com.wang.dbdemo.entity.Order" >
+    insert into ${tableName} (id, order_id, order_type, 
+      city_id, platform_id, platform_order_id, 
+      poi_id, sender_address, sender_phone, 
+      sender_lng, sender_lat, sender_name, 
+      receiver_address, receiver_phone, receiver_lng, 
+      receiver_lat, receiver_name, remark, 
+      pkg_price, create_by, create_time, 
+      update_by, update_time)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR}, #{platformId,jdbcType=VARCHAR}, #{platformOrderId,jdbcType=VARCHAR}, 
+      #{poiId,jdbcType=VARCHAR}, #{senderAddress,jdbcType=VARCHAR}, #{senderPhone,jdbcType=VARCHAR}, 
+      #{senderLng,jdbcType=INTEGER}, #{senderLat,jdbcType=INTEGER}, #{senderName,jdbcType=VARCHAR}, 
+      #{receiverAddress,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverLng,jdbcType=INTEGER}, 
+      #{receiverLat,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{pkgPrice,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+
+  <update id="shardUpdateByPrimaryKey" parameterType="com.wang.dbdemo.entity.Order" >
+    update ${tableName}
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=VARCHAR},
+      platform_id = #{platformId,jdbcType=VARCHAR},
+      platform_order_id = #{platformOrderId,jdbcType=VARCHAR},
+      poi_id = #{poiId,jdbcType=VARCHAR},
+      sender_address = #{senderAddress,jdbcType=VARCHAR},
+      sender_phone = #{senderPhone,jdbcType=VARCHAR},
+      sender_lng = #{senderLng,jdbcType=INTEGER},
+      sender_lat = #{senderLat,jdbcType=INTEGER},
+      sender_name = #{senderName,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_lng = #{receiverLng,jdbcType=INTEGER},
+      receiver_lat = #{receiverLat,jdbcType=INTEGER},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      pkg_price = #{pkgPrice,jdbcType=DECIMAL},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
